@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+__pycache__/
+venv/
+
+# Compiled
+*.o
+*.exe
+build/
+dist/
+
+# Environment
+.env
+*.log
+
+# Docker
+data/
+volumes/
+
+
+# IDE
+.vscode/
+.idea/

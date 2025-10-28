@@ -1,0 +1,13 @@
+[project]
+name = "mcp-server"
+version = "0.1.0"
+description = "PointCare MCP Server - InfluxDB sensor data interface"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "mcp[cli]>=1.19.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
+    "influxdb-client>=1.47.0",
+    "pydantic>=2.10.0",
+]

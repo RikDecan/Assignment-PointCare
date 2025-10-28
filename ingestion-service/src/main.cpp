@@ -24,7 +24,7 @@ int main() {
         
         double temperature = getRandomValue(36.0, 38.5);
         double heart_rate = getRandomValue(60.0, 100.0);
-        double blood_pressure = getRandomValue(110.0, 140.0);
+        double blood_pressure = getRandomValue(110.0, 140.0); //voorlopig enkel overdruk -> TODO: onderdruk toegevoegen worden als tijd over is
         double spo2 = getRandomValue(95.0, 100.0);
         double respiration_rate = getRandomValue(12.0, 20.0);
         

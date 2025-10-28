@@ -30,6 +30,23 @@ services:
       - influxdb
     restart: unless-stopped
 
+  mcp-server:
+    build:
+      context: ./mcp-server
+      dockerfile: Dockerfile
+    container_name: mcp-server-pointcare
+    networks:
+      internal:
+        ipv4_address: 172.25.0.12
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=700d5d63-ef50-47b5-a90c-cdeff2f823b7
+      - INFLUXDB_ORG=pointcare
+      - INFLUXDB_BUCKET=sensors
+    depends_on:
+      - influxdb
+    restart: unless-stopped
+
 networks:
   internal:
     driver: bridge
@@ -39,4 +56,4 @@ networks:
 
 volumes:
   influxdb-data:
-  influxdb-config: ##verder aan werken if nodig
+  influxdb-config:

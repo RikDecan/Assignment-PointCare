@@ -7,9 +7,11 @@ RUN pip install uv
 COPY pyproject.toml ./
 COPY influxdb_queries.py ./
 COPY mcp_server.py ./
+COPY api_server.py ./
 
 RUN uv sync
 
-# kleine notie: MCP servers normaal invoked by LLM clients 
-CMD ["tail", "-f", "/dev/null"] 
-# For development/testing, laten we het aan
+EXPOSE 8000
+
+# Run HTTP API server for reverse proxy access
+CMD ["uv", "run", "uvicorn", "api_server:app", "--host", "0.0.0.0", "--port", "8000"]

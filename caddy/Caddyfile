@@ -1,0 +1,80 @@
+# Caddyfile - Reverse proxy voor PointCare MCP Server
+# Handles external client requests en routeert naar MCP server
+
+# Disable automatic HTTPS voor local development
+{
+    auto_https off
+    admin off
+}
+
+# Listen op port 80
+:80 {
+    # Enable CORS voor alle origins (development)
+    header Access-Control-Allow-Origin *
+    header Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    header Access-Control-Allow-Headers "Content-Type, Authorization"
+
+    # Health check endpoint
+    handle /health {
+        respond "OK" 200
+    }
+
+    # Route alle /api/* requests naar MCP server
+    handle /api/* {
+        reverse_proxy mcp-server:8000 {
+            # Header forwarding
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    # Root endpoint - API info
+    handle / {
+        respond <<HTML
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>PointCare API</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 40px; }
+                    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+                    pre { background: #f4f4f4; padding: 15px; border-radius: 5px; }
+                </style>
+            </head>
+            <body>
+                <h1>PointCare MCP Server API</h1>
+                <p>Reverse proxy active - Caddy routing requests to MCP server</p>
+                
+                <h2>Available Endpoints:</h2>
+                <ul>
+                    <li><code>GET /health</code> - Health check</li>
+                    <li><code>POST /api/aggregate</code> - Aggregation queries</li>
+                    <li><code>POST /api/filter</code> - Filtering queries</li>
+                </ul>
+
+                <h3>Example Request:</h3>
+                <pre>
+POST /api/aggregate
+Content-Type: application/json
+
+{
+  "metric": "temperature",
+  "function": "mean",
+  "time_range": "10m"
+}
+                </pre>
+
+                <p><strong>Status:</strong>Proxy running on port 80</p>
+            </body>
+            </html>
+        HTML 200
+    }
+
+    # Log alle requests
+    log {
+        output stdout
+        format console
+    }
+}

@@ -2,6 +2,7 @@
 node_modules/
 __pycache__/
 venv/
+.venv/
 
 # Compiled
 *.o
@@ -17,6 +18,8 @@ dist/
 data/
 volumes/
 
+# LLM Models (too large for git)
+llm/models/*.gguf
 
 # IDE
 .vscode/

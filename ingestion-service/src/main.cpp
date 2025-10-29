@@ -28,6 +28,14 @@ int main() {
         double spo2 = getRandomValue(95.0, 100.0);
         double respiration_rate = getRandomValue(12.0, 20.0);
         
+        //Ongewone waardes voor testing => zoals koorts, hoge hartslag, lage spo2
+        // double temperature = getRandomValue(39.0, 41.0);
+        // double heart_rate = getRandomValue(90.0, 130.0);
+        // double blood_pressure = getRandomValue(110.0, 140.0);
+        // double spo2 = getRandomValue(75.0, 90.0);
+        // double respiration_rate = getRandomValue(17.0, 27.0);
+        
+        
         sendDataPoint("sensor_001", "temperature", temperature);
         sendDataPoint("sensor_002", "heart_rate", heart_rate);
         sendDataPoint("sensor_003", "blood_pressure", blood_pressure);

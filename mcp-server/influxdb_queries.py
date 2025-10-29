@@ -36,12 +36,17 @@ def get_aggregate_data(metric: str, function: str, time_range: str) -> list:
     aggregated_data = []
     for table in result:
         for record in table.records:
-            aggregated_data.append({
+            data_point = {
                 'measurement': record.get_measurement(),
                 'value': round(record.get_value(), 2),
                 'function': function,
                 'time_range': time_range
-            })
+            }
+           
+            if '_time' in record.values:
+                data_point['timestamp'] = record.values['_time'].isoformat()
+            
+            aggregated_data.append(data_point)
     
     return aggregated_data
 
